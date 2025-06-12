@@ -1,24 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>instant-markdown-canvas</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
 
-    <meta property="og:title" content="instant-markdown-canvas" />
-    <meta property="og:description" content="Lovable Generated Project" />
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Instant Markdown Canvas</title>
+
+    <!-- Meta Description & Author -->
+    <meta name="description"
+        content="Instant Markdown Canvas is a beautiful markdown editing experience with live preview. Built by Yoseph Berhane at yoseph.dev." />
+    <meta name="author" content="Yoseph Berhane" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="Instant Markdown Canvas" />
+    <meta property="og:description"
+        content="Edit and preview markdown instantly in a modern, canvas-style interface. Created by Yoseph from yoseph.dev." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:url" content="https://yoseph.dev/instant-markdown-canvas" />
 
+    <!-- Twitter Meta -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:site" content="@yosephdev" />
+    <meta name="twitter:title" content="Instant Markdown Canvas" />
+    <meta name="twitter:description"
+        content="Live markdown editor with clean interface and real-time preview. Built by Yoseph Berhane." />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
 
-  <body>
+    <!-- Fonts and Styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #fefefe;
+            color: #1a1a1a;
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>
+        <strong>This app requires JavaScript to run. Please enable it in your browser.</strong>
+    </noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-  </body>
+</body>
+
 </html>
