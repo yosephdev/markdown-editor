@@ -1,73 +1,158 @@
-# Welcome to your Lovable project
+# Instant Markdown Canvas
 
-## Project info
+A modern, real-time markdown editor with live preview functionality built with React, TypeScript, and Shadcn UI components.
 
-**URL**: https://lovable.dev/projects/96e19ee7-9463-4e40-9de3-ee4022e5ecff
+![Instant Markdown Canvas](./public/instant-markdown-canvas-preview.png)
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+- **Real-time Preview**: See your markdown rendered instantly as you type
+- **Split-pane Interface**: Resizable editor and preview panels
+- **Syntax Highlighting**: Clear formatting for code blocks and markdown syntax
+- **Modern UI**: Clean, responsive design using Shadcn UI components
+- **File Management**: Create, save, and load markdown files
+- **Export Options**: Export your content as HTML, PDF, or Markdown
+- **Responsive Design**: Works on desktop and mobile devices
+- **Sidebar Navigation**: Easy access to your files and folders
 
-**Use Lovable**
+## 🛠️ Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/96e19ee7-9463-4e40-9de3-ee4022e5ecff) and start prompting.
+- **Frontend**: React 18 with TypeScript
+- **Styling**: Tailwind CSS with Shadcn UI components
+- **Routing**: React Router DOM
+- **Markdown Processing**: Marked.js
+- **Security**: DOMPurify for sanitizing HTML output
+- **State Management**: React Query for async state
+- **Build Tool**: Vite
 
-Changes made via Lovable will be committed automatically to this repo.
+## 📋 Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v16 or higher)
+- npm or yarn or bun
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🔧 Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yosephdev/instant-markdown-canvas.git
+   cd instant-markdown-canvas
+   ```
 
-Follow these steps:
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   bun install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   bun dev
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. Open your browser and navigate to `http://localhost:5173`
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🖥️ Usage
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+1. **Creating a new document**: Click the "New" button in the toolbar
+2. **Editing**: Type your markdown in the left panel
+3. **Preview**: See the rendered output in the right panel
+4. **Saving**: Click the "Save" button to save your document
+5. **Exporting**: Use the export dropdown to choose your preferred format
+6. **File Management**: Toggle the sidebar to access your files
+
+## 📝 Markdown Support
+
+Instant Markdown Canvas supports standard markdown syntax including:
+
+- Headers (# H1, ## H2, etc.)
+- Emphasis (*italic*, **bold**)
+- Lists (ordered and unordered)
+- Links and images
+- Code blocks with syntax highlighting
+- Blockquotes
+- Horizontal rules
+- Task lists
+- Tables
+
+## 🔍 Project Structure
+
+```
+instant-markdown-canvas/
+├── public/               # Static assets
+├── src/
+│   ├── components/       # React components
+│   │   ├── ui/           # Shadcn UI components
+│   │   ├── EditorPane.tsx
+│   │   ├── MarkdownEditor.tsx
+│   │   ├── PreviewPane.tsx
+│   │   ├── Sidebar.tsx
+│   │   ├── StatusBar.tsx
+│   │   └── Toolbar.tsx
+│   ├── hooks/            # Custom React hooks
+│   ├── lib/              # Utility functions
+│   ├── pages/            # Page components
+│   ├── App.tsx           # Main application component
+│   └── main.tsx          # Entry point
+├── package.json          # Dependencies and scripts
+└── vite.config.ts        # Vite configuration
 ```
 
-**Edit a file directly in GitHub**
+## 🧪 Running Tests
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run test
+# or
+yarn test
+# or
+bun test
+```
 
-**Use GitHub Codespaces**
+## 🚢 Deployment
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Build the production version:
+   ```bash
+   npm run build
+   # or
+   yarn build
+   # or
+   bun run build
+   ```
 
-## What technologies are used for this project?
+2. The build output will be in the `dist` directory, which can be deployed to any static hosting service like Netlify, Vercel, GitHub Pages, or AWS S3.
 
-This project is built with:
+## 🤝 Contributing
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## How can I deploy this project?
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Simply open [Lovable](https://lovable.dev/projects/96e19ee7-9463-4e40-9de3-ee4022e5ecff) and click on Share -> Publish.
+## 📄 License
 
-## Can I connect a custom domain to my Lovable project?
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Yes, you can!
+## 👏 Acknowledgments
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Marked.js](https://marked.js.org/)
+- [DOMPurify](https://github.com/cure53/DOMPurify)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📧 Contact
+
+Yoseph Berhane - [contact@yoseph.dev](mailto:your.email@example.com)
+
+Project Link: [https://github.com/yosephdev/instant-markdown-canvas](https://github.com/yosephdev/instant-markdown-canvas)
