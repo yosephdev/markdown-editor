@@ -1,58 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Instant Markdown Canvas</title>
-
+    
+    <title>Modern Markdown Editor</title>
+    
     <!-- Meta Description & Author -->
-    <meta name="description"
-        content="Instant Markdown Canvas is a beautiful markdown editing experience with live preview. Built by Yoseph Berhane at yoseph.dev." />
-    <meta name="author" content="Yoseph Berhane" />
-
+    <meta name="description" content="A modern, feature-rich markdown editor with real-time preview, syntax highlighting, and export capabilities. Built with React and TypeScript." />
+    <meta name="author" content="Modern Markdown Editor" />
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-
+    
     <!-- Open Graph Meta -->
-    <meta property="og:title" content="Instant Markdown Canvas" />
-    <meta property="og:description"
-        content="Edit and preview markdown instantly in a modern, canvas-style interface. Created by Yoseph from yoseph.dev." />
+    <meta property="og:title" content="Modern Markdown Editor" />
+    <meta property="og:description" content="A powerful markdown editor with live preview, syntax highlighting, and modern UI." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-    <meta property="og:url" content="https://yoseph.dev/instant-markdown-canvas" />
-
+    
     <!-- Twitter Meta -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@yosephdev" />
-    <meta name="twitter:title" content="Instant Markdown Canvas" />
-    <meta name="twitter:description"
-        content="Live markdown editor with clean interface and real-time preview. Built by Yoseph Berhane." />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <!-- Fonts and Styling -->
+    <meta name="twitter:title" content="Modern Markdown Editor" />
+    <meta name="twitter:description" content="A powerful markdown editor with live preview, syntax highlighting, and modern UI." />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600&display=swap"
-        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    
     <style>
         body {
             margin: 0;
             font-family: 'Inter', system-ui, sans-serif;
-            background-color: #fefefe;
-            color: #1a1a1a;
+            background-color: #ffffff;
+            color: #0f172a;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
-
 <body>
     <noscript>
-        <strong>This app requires JavaScript to run. Please enable it in your browser.</strong>
+        <div style="text-align: center; padding: 2rem;">
+            <h1>JavaScript Required</h1>
+            <p>This application requires JavaScript to run. Please enable JavaScript in your browser.</p>
+        </div>
     </noscript>
-
-    <div id="root"></div>
+    
+    <div id="root">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading Markdown Editor...</p>
+        </div>
+    </div>
+    
     <script type="module" src="/src/main.tsx"></script>
 </body>
-
 </html>
