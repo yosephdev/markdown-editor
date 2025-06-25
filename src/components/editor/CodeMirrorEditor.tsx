@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { EditorView, basicSetup } from 'codemirror';
+import { EditorView, basicSetup, lineNumbers } from 'codemirror';
 import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorState } from '@codemirror/state';
@@ -18,7 +18,7 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
-  const { theme, fontSize, wordWrap, lineNumbers } = useEditorStore();
+  const { theme, fontSize, wordWrap, lineNumbers: showLineNumbers } = useEditorStore();
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -49,8 +49,17 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
           outline: 'none',
         },
       }),
-      EditorView.lineWrapping.of(wordWrap),
     ];
+
+    // Conditionally add line wrapping
+    if (wordWrap) {
+      extensions.push(EditorView.lineWrapping);
+    }
+
+    // Conditionally add line numbers
+    if (showLineNumbers) {
+      extensions.push(lineNumbers());
+    }
 
     if (theme === 'dark') {
       extensions.push(oneDark);
@@ -72,7 +81,7 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
       view.destroy();
       viewRef.current = null;
     };
-  }, [theme, fontSize, wordWrap, lineNumbers]);
+  }, [theme, fontSize, wordWrap, showLineNumbers]);
 
   // Update content when value changes externally
   useEffect(() => {
