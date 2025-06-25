@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { EditorView, basicSetup, lineNumbers } from 'codemirror';
+import { EditorView, basicSetup } from 'codemirror';
+import { lineNumbers } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorState } from '@codemirror/state';
