@@ -33,12 +33,14 @@ A modern, real-time markdown editor with live preview functionality built with R
 ## 🔧 Installation
 
 1. Clone the repository:
+
    ```bash
-   git clone https://github.com/yosephdev/instant-markdown-canvas.git
-   cd instant-markdown-canvas
+   git clone https://github.com/yosephdev/markdown-editor
+   cd markdown-editor
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    # or
@@ -48,6 +50,7 @@ A modern, real-time markdown editor with live preview functionality built with R
    ```
 
 3. Start the development server:
+
    ```bash
    npm run dev
    # or
@@ -117,6 +120,7 @@ bun test
 ## 🚢 Deployment
 
 1. Build the production version:
+
    ```bash
    npm run build
    # or
@@ -155,4 +159,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Yoseph Berhane - [contact@yoseph.dev](mailto:your.email@example.com)
 
-Project Link: [https://github.com/yosephdev/instant-markdown-canvas](https://github.com/yosephdev/instant-markdown-canvas)
+Project Link: [https://github.com/yosephdev/markdown-editor](https://github.com/yosephdev/markdown-editor)
