@@ -7,22 +7,23 @@ A modern, real-time markdown editor with live preview functionality built with R
 ## 🚀 Features
 
 - **Real-time Preview**: See your markdown rendered instantly as you type
-- **Split-pane Interface**: Resizable editor and preview panels
-- **Syntax Highlighting**: Clear formatting for code blocks and markdown syntax
-- **Modern UI**: Clean, responsive design using Shadcn UI components
-- **File Management**: Create, save, and load markdown files
-- **Export Options**: Export your content as HTML, PDF, or Markdown
-- **Responsive Design**: Works on desktop and mobile devices
-- **Sidebar Navigation**: Easy access to your files and folders
+- **Split-pane UI**: Resizable editor and preview panels
+- **Syntax Highlighting**: Rich editing experience with CodeMirror
+- **File Management**: Create, save, rename, and delete files
+- **Export Options**: Export as HTML, PDF, or Markdown
+- **Responsive Design**: Works great on mobile and desktop
+- **Themes**: Light and dark mode support
+- **Keyboard Shortcuts**: Efficient workflow with shortcuts
+- **Auto-save**: Never lose your work
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18 with TypeScript
 - **Styling**: Tailwind CSS with Shadcn UI components
+- **State Management**: Zustand
 - **Routing**: React Router DOM
 - **Markdown Processing**: Marked.js
 - **Security**: DOMPurify for sanitizing HTML output
-- **State Management**: React Query for async state
 - **Build Tool**: Vite
 
 ## 📋 Prerequisites
@@ -63,12 +64,14 @@ A modern, real-time markdown editor with live preview functionality built with R
 
 ## 🖥️ Usage
 
-1. **Creating a new document**: Click the "New" button in the toolbar
-2. **Editing**: Type your markdown in the left panel
-3. **Preview**: See the rendered output in the right panel
-4. **Saving**: Click the "Save" button to save your document
-5. **Exporting**: Use the export dropdown to choose your preferred format
-6. **File Management**: Toggle the sidebar to access your files
+1. **Creating a new document**: Use **Ctrl+N** or the "New File" button
+2. **Editing**: Type your markdown in the editor panel
+3. **Preview**: See the live preview in the preview panel
+4. **Toggling Sidebar**: Use **Ctrl+B** or the menu icon to show/hide the sidebar
+5. **Cycling View Modes**: Use **Ctrl+P** to switch between split, editor-only, and preview-only modes
+6. **Saving**: Your work is **auto-saved**
+7. **Exporting**: Use the export option in the toolbar to export as HTML, PDF, or Markdown
+8. **File Management**: Access, rename, and delete files from the sidebar
 
 ## 📝 Markdown Support
 
@@ -84,6 +87,14 @@ Instant Markdown Canvas supports standard markdown syntax including:
 - Task lists
 - Tables
 
+## ⚡ Keyboard Shortcuts
+
+- **Ctrl+N**: Create new file
+- **Ctrl+B**: Toggle sidebar
+- **Ctrl+P**: Cycle through view modes (Split, Editor Only, Preview Only)
+- **Ctrl+Shift+E**: Switch to Editor Only mode
+- **Ctrl+Shift+R**: Switch to Preview Only mode
+
 ## 🔍 Project Structure
 
 ```
@@ -91,16 +102,16 @@ instant-markdown-canvas/
 ├── public/               # Static assets
 ├── src/
 │   ├── components/       # React components
-│   │   ├── ui/           # Shadcn UI components
-│   │   ├── EditorPane.tsx
-│   │   ├── MarkdownEditor.tsx
-│   │   ├── PreviewPane.tsx
-│   │   ├── Sidebar.tsx
-│   │   ├── StatusBar.tsx
-│   │   └── Toolbar.tsx
+│   │   ├── editor/       # Editor-specific components
+│   │   ├── layout/       # Layout components (Toolbar, Sidebar, StatusBar)
+│   │   ├── modals/       # Modal components
+│   │   └── ui/           # Shadcn UI components
+│   ├── contexts/         # React Contexts
 │   ├── hooks/            # Custom React hooks
 │   ├── lib/              # Utility functions
 │   ├── pages/            # Page components
+│   ├── store/            # Zustand store
+│   ├── types/            # TypeScript type definitions
 │   ├── App.tsx           # Main application component
 │   └── main.tsx          # Entry point
 ├── package.json          # Dependencies and scripts
