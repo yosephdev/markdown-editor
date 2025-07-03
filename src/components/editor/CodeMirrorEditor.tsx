@@ -3,7 +3,7 @@ import { EditorView, basicSetup, keymap } from 'codemirror';
 import { lineNumbers } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { githubLight, githubDark } from '@/lib/codemirror-themes'; // Assuming a custom file for other themes
+import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { solarizedLight, solarizedDark } from '@uiw/codemirror-theme-solarized';
 import { EditorState, Extension } from '@codemirror/state';

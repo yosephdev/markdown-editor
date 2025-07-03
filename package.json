@@ -47,6 +47,7 @@
     "@tanstack/react-query": "^5.56.2",
     "@types/dompurify": "^3.2.0",
     "@uiw/codemirror-theme-dracula": "^4.23.14",
+    "@uiw/codemirror-theme-github": "^4.23.14",
     "@uiw/codemirror-theme-solarized": "^4.23.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
