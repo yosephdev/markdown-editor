@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toolbar } from '@/components/layout/Toolbar';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { StatusBar } from '@/components/layout/StatusBar';
 import { EditorLayout } from '@/components/editor/EditorLayout';
 import { ExportModal } from '@/components/modals/ExportModal';
@@ -16,7 +18,8 @@ import NotFound from './pages/NotFound';
 const queryClient = new QueryClient();
 
 const MainEditor: React.FC = () => {
-  const { sidebarOpen, theme, createFile, files } = useEditorStore();
+  const { sidebarOpen, theme, createFile, files, toggleSidebar } = useEditorStore();
+  const isMobile = useIsMobile();
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
@@ -80,14 +83,35 @@ Happy writing! 🚀`);
 
   return (
     <div className="flex flex-col h-screen bg-background">
-      <Toolbar />
+      <header>
+        <Toolbar
+          onOpenExport={() => setExportModalOpen(true)}
+          onOpenSettings={() => setSettingsModalOpen(true)}
+        />
+      </header>
       
-      <div className="flex flex-1 overflow-hidden">
-        {sidebarOpen && <Sidebar />}
+      <main className="flex flex-1 overflow-hidden">
+        {isMobile ? (
+          <Sheet open={sidebarOpen} onOpenChange={toggleSidebar}>
+            <SheetContent side="left" size="sm" className="p-0">
+              <aside>
+                <Sidebar isMobile={isMobile} onFileSelect={() => toggleSidebar()} />
+              </aside>
+            </SheetContent>
+          </Sheet>
+        ) : (
+          sidebarOpen && (
+            <aside>
+              <Sidebar />
+            </aside>
+          )
+        )}
         <EditorLayout />
-      </div>
+      </main>
       
-      <StatusBar />
+      <footer>
+        <StatusBar />
+      </footer>
       
       <ExportModal open={exportModalOpen} onOpenChange={setExportModalOpen} />
       <SettingsModal open={settingsModalOpen} onOpenChange={setSettingsModalOpen} />

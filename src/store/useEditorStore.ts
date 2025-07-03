@@ -1,5 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
+import { toast } from '@/components/ui/use-toast';
 
 export interface MarkdownFile {
   id: string;
@@ -19,6 +22,7 @@ interface EditorState {
   sidebarOpen: boolean;
   previewMode: 'split' | 'preview' | 'editor';
   theme: 'light' | 'dark';
+  editorTheme: string;
   fontSize: number;
   
   // Editor Settings
@@ -38,6 +42,7 @@ interface EditorState {
   setPreviewMode: (mode: 'split' | 'preview' | 'editor') => void;
   setTheme: (theme: 'light' | 'dark') => void;
   setFontSize: (size: number) => void;
+  setEditorTheme: (editorTheme: string) => void;
   
   // Settings Actions
   toggleAutoSave: () => void;
@@ -58,6 +63,7 @@ export const useEditorStore = create<EditorState>()(
       sidebarOpen: true,
       previewMode: 'split',
       theme: 'light',
+      editorTheme: 'oneDark', // Default CodeMirror theme
       fontSize: 14,
       autoSave: true,
       wordWrap: true,
@@ -127,6 +133,10 @@ export const useEditorStore = create<EditorState>()(
         set({ fontSize });
       },
 
+      setEditorTheme: (editorTheme: string) => {
+        set({ editorTheme });
+      },
+
       // Settings Actions
       toggleAutoSave: () => {
         set((state) => ({ autoSave: !state.autoSave }));
@@ -143,24 +153,78 @@ export const useEditorStore = create<EditorState>()(
       // File Operations
       exportFile: (id: string, format: 'html' | 'pdf' | 'md') => {
         const file = get().files.find((f) => f.id === id);
-        if (!file) return;
-
-        if (format === 'md') {
-          const blob = new Blob([file.content], { type: 'text/markdown' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `${file.name}.md`;
-          a.click();
-          URL.revokeObjectURL(url);
+        if (!file) {
+          toast({
+            title: 'Export Failed',
+            description: 'File not found.',
+            variant: 'destructive',
+          });
+          return;
         }
-        // HTML and PDF export will be implemented in components
+
+        try {
+          if (format === 'md') {
+            const blob = new Blob([file.content], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${file.name}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+            toast({
+              title: 'Export Successful',
+              description: `${file.name}.md has been downloaded.`,
+            });
+          } else if (format === 'html') {
+            const htmlContent = DOMPurify.sanitize(marked(file.content) as string);
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${file.name}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+            toast({
+              title: 'Export Successful',
+              description: `${file.name}.html has been downloaded.`,
+            });
+          } else if (format === 'pdf') {
+            // PDF export is handled by the ExportModal component, which uses html2canvas and jspdf
+            // This action here is primarily for triggering the modal or logging
+            toast({
+              title: 'PDF Export Initiated',
+              description: 'Please confirm options in the export dialog.',
+            });
+          }
+        } catch (error) {
+          console.error('Export error:', error);
+          toast({
+            title: 'Export Failed',
+            description: 'An error occurred during export.',
+            variant: 'destructive',
+          });
+        }
       },
 
       importFile: async (file: File): Promise<string> => {
-        const content = await file.text();
-        const name = file.name.replace(/\.md$/, '');
-        return get().createFile(name, content);
+        try {
+          const content = await file.text();
+          const name = file.name.replace(/\.md$/, '');
+          const newFileId = get().createFile(name, content);
+          toast({
+            title: 'Import Successful',
+            description: `${file.name} has been imported.`,
+          });
+          return newFileId;
+        } catch (error) {
+          console.error('Import error:', error);
+          toast({
+            title: 'Import Failed',
+            description: 'An error occurred during file import.',
+            variant: 'destructive',
+          });
+          throw error; // Re-throw to propagate the error if needed
+        }
       },
     }),
     {

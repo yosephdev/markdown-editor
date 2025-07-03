@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
 import { Separator } from '@/components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useEditorStore } from '@/store/useEditorStore';
 
 interface SettingsModalProps {
@@ -30,6 +31,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onOpenChange
     toggleLineNumbers,
     theme,
     setTheme,
+    editorTheme,
+    setEditorTheme,
   } = useEditorStore();
 
   return (
@@ -53,7 +56,21 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onOpenChange
                 id="theme"
                 checked={theme === 'dark'}
                 onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
+                aria-label="Toggle dark mode"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="editor-theme">Editor Theme</Label>
+              <Select value={editorTheme} onValueChange={setEditorTheme}>
+                <SelectTrigger id="editor-theme" className="w-full">
+                  <SelectValue placeholder="Select a theme" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="oneDark">One Dark</SelectItem>
+                  {/* Add more themes here as they are imported/supported */}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
@@ -65,6 +82,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onOpenChange
                 max={24}
                 step={1}
                 className="w-full"
+                aria-label="Font size slider"
               />
             </div>
           </div>
@@ -81,6 +99,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onOpenChange
                 id="auto-save"
                 checked={autoSave}
                 onCheckedChange={toggleAutoSave}
+                aria-label="Toggle auto save"
               />
             </div>
 
@@ -90,6 +109,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onOpenChange
                 id="word-wrap"
                 checked={wordWrap}
                 onCheckedChange={toggleWordWrap}
+                aria-label="Toggle word wrap"
               />
             </div>
 
@@ -99,6 +119,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onOpenChange
                 id="line-numbers"
                 checked={lineNumbers}
                 onCheckedChange={toggleLineNumbers}
+                aria-label="Toggle line numbers"
               />
             </div>
           </div>

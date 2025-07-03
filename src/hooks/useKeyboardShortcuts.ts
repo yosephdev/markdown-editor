@@ -20,47 +20,54 @@ export const useKeyboardShortcuts = () => {
       if (!modifier) return;
 
       switch (event.key.toLowerCase()) {
-        case 'n':
+        case 'n': {
           event.preventDefault();
           createFile('Untitled', '# New Document\n\nStart writing...');
           break;
+        }
 
-        case 's':
+        case 's': {
           event.preventDefault();
           // Auto-save is handled by the editor component
           break;
+        }
 
-        case 'b':
+        case 'b': {
           event.preventDefault();
           toggleSidebar();
           break;
+        }
 
-        case 'p':
+        case 'p': {
           event.preventDefault();
           const modes: Array<'split' | 'preview' | 'editor'> = ['split', 'preview', 'editor'];
           const currentIndex = modes.indexOf(previewMode);
           const nextMode = modes[(currentIndex + 1) % modes.length];
           setPreviewMode(nextMode);
           break;
+        }
 
-        case 'e':
+        case 'e': {
           if (event.shiftKey) {
             event.preventDefault();
             setPreviewMode('editor');
           }
           break;
+        }
 
-        case 'r':
+        case 'r': {
           if (event.shiftKey) {
             event.preventDefault();
             setPreviewMode('preview');
           }
           break;
+        }
 
-        case '/':
+        case '/': {
           event.preventDefault();
           // Focus search (will be implemented)
           break;
+        }
       }
     };
 

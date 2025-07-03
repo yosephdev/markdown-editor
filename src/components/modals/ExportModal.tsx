@@ -17,6 +17,7 @@ import { useEditorStore } from '@/store/useEditorStore';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface ExportModalProps {
   open: boolean;
@@ -133,40 +134,62 @@ export const ExportModal: React.FC<ExportModalProps> = ({ open, onOpenChange }) 
     URL.revokeObjectURL(url);
   };
 
-  const exportAsPDF = (content: string, filename: string) => {
+  const exportAsPDF = async (content: string, filename: string) => {
     const html = marked(content) as string;
     const sanitizedHTML = DOMPurify.sanitize(html);
-    
-    // Create a temporary div to render the HTML
+
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = sanitizedHTML;
-    tempDiv.style.fontFamily = 'Arial, sans-serif';
-    tempDiv.style.fontSize = '12px';
-    tempDiv.style.lineHeight = '1.4';
-    tempDiv.style.color = '#000';
-    
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.left = '-9999px';
+    tempDiv.style.width = '800px'; // Set a reasonable width for rendering
+    tempDiv.innerHTML = `
+      <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; line-height: 1.6; color: #333; }
+        h1, h2, h3, h4, h5, h6 { margin-top: 2rem; margin-bottom: 1rem; font-weight: 600; }
+        h1 { font-size: 2.5rem; } h2 { font-size: 2rem; } h3 { font-size: 1.5rem; }
+        code { background: #f4f4f4; padding: 0.2rem 0.4rem; border-radius: 3px; font-family: 'Monaco', 'Menlo', monospace; }
+        pre { background: #f4f4f4; padding: 1rem; border-radius: 5px; overflow-x: auto; }
+        blockquote { border-left: 4px solid #ddd; margin: 1rem 0; padding-left: 1rem; color: #666; }
+        table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+        th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+        th { background: #f4f4f4; }
+      </style>
+      ${sanitizedHTML}
+    `;
     document.body.appendChild(tempDiv);
-    
-    const pdf = new jsPDF();
-    const pageHeight = pdf.internal.pageSize.height;
-    const pageWidth = pdf.internal.pageSize.width;
-    
-    // Simple text extraction and PDF generation
-    const text = tempDiv.innerText;
-    const lines = pdf.splitTextToSize(text, pageWidth - 40);
-    
-    let y = 20;
-    lines.forEach((line: string) => {
-      if (y > pageHeight - 20) {
+
+    try {
+      const canvas = await html2canvas(tempDiv, {
+        scale: 2, // Increase scale for better resolution
+        useCORS: true,
+        logging: false,
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
         pdf.addPage();
-        y = 20;
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
       }
-      pdf.text(line, 20, y);
-      y += 7;
-    });
-    
-    document.body.removeChild(tempDiv);
-    pdf.save(`${filename}.pdf`);
+
+      pdf.save(`${filename}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+    } finally {
+      document.body.removeChild(tempDiv);
+    }
   };
 
   const exportAsMarkdown = (content: string, filename: string) => {
@@ -200,6 +223,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({ open, onOpenChange }) 
               value={filename}
               onChange={(e) => setFilename(e.target.value)}
               placeholder="Enter filename"
+              aria-label="Filename"
             />
           </div>
 

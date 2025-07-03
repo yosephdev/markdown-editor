@@ -33,7 +33,16 @@ import {
 import { useEditorStore } from '@/store/useEditorStore';
 import { formatDistanceToNow } from 'date-fns';
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isMobile: boolean;
+  onFileSelect: () => void;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({
+  isMobile,
+  onFileSelect,
+}) => {
+  const [isDragging, setIsDragging] = useState(false);
   const {
     files,
     currentFileId,
@@ -96,12 +105,39 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-80 border-r border-border bg-card flex flex-col h-full">
+    <div
+      className={`w-80 border-r border-border bg-card flex flex-col h-full ${isDragging ? 'border-2 border-primary' : ''}`}
+      onDragOver={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+      }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+      }}
+      onDrop={async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          const file = e.dataTransfer.files[0];
+          if (file.type === 'text/markdown') {
+            await importFile(file);
+          } else {
+            alert('Only Markdown files (.md, .markdown) are supported.');
+          }
+          e.dataTransfer.clearData();
+        }
+      }}
+    >
       {/* Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-foreground">Files</h2>
-          <Button variant="ghost" size="sm" onClick={toggleSidebar}>
+          <Button variant="ghost" size="sm" onClick={toggleSidebar} aria-label="Close sidebar">
             <X className="h-4 w-4" />
           </Button>
         </div>
@@ -114,16 +150,17 @@ export const Sidebar: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
+            aria-label="Search files"
           />
         </div>
 
         {/* Actions */}
         <div className="flex gap-2">
-          <Button onClick={handleCreateFile} size="sm" className="flex-1">
+          <Button onClick={handleCreateFile} size="sm" className="flex-1" aria-label="Create new file">
             <Plus className="h-4 w-4 mr-2" />
             New File
           </Button>
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" asChild aria-label="Import file">
             <label className="cursor-pointer">
               <Upload className="h-4 w-4" />
               <input
@@ -154,7 +191,12 @@ export const Sidebar: React.FC = () => {
                   className={`group relative rounded-lg p-3 cursor-pointer transition-colors hover:bg-accent ${
                     currentFileId === file.id ? 'bg-accent' : ''
                   }`}
-                  onClick={() => setCurrentFile(file.id)}
+                  onClick={() => {
+                    setCurrentFile(file.id);
+                    if (isMobile) {
+                      onFileSelect();
+                    }
+                  }}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
@@ -209,22 +251,7 @@ export const Sidebar: React.FC = () => {
                           <Edit3 className="h-4 w-4 mr-2" />
                           Rename
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const blob = new Blob([file.content], { type: 'text/markdown' });
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = `${file.name}.md`;
-                            a.click();
-                            URL.revokeObjectURL(url);
-                          }}
-                        >
-                          <Download className="h-4 w-4 mr-2" />
-                          Export
-                        </DropdownMenuItem>
-                        <Separator />
+                        
                         <DropdownMenuItem
                           onClick={(e) => {
                             e.stopPropagation();

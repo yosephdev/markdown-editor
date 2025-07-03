@@ -1,9 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { EditorView, basicSetup } from 'codemirror';
+import { EditorView, basicSetup, keymap } from 'codemirror';
 import { lineNumbers } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { EditorState } from '@codemirror/state';
+import { githubLight, githubDark } from '@/lib/codemirror-themes'; // Assuming a custom file for other themes
+import { dracula } from '@uiw/codemirror-theme-dracula';
+import { solarizedLight, solarizedDark } from '@uiw/codemirror-theme-solarized';
+import { EditorState, Extension } from '@codemirror/state';
+import { history, historyKeymap } from '@codemirror/history';
+import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
 import { useEditorStore } from '@/store/useEditorStore';
 
 interface CodeMirrorEditorProps {
@@ -19,7 +24,7 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
-  const { theme, fontSize, wordWrap, lineNumbers: showLineNumbers } = useEditorStore();
+  const { theme, fontSize, wordWrap, lineNumbers: showLineNumbers, editorTheme } = useEditorStore();
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -27,6 +32,10 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
     const extensions = [
       basicSetup,
       markdown(),
+      history(),
+      keymap.of(historyKeymap),
+      highlightSelectionMatches(),
+      keymap.of(searchKeymap),
       EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           onChange(update.state.doc.toString());
@@ -66,6 +75,20 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
       extensions.push(oneDark);
     }
 
+    // Apply selected editor theme
+    const themes: { [key: string]: Extension } = {
+      oneDark: oneDark,
+      githubLight: githubLight,
+      githubDark: githubDark,
+      dracula: dracula,
+      solarizedLight: solarizedLight,
+      solarizedDark: solarizedDark,
+    };
+
+    if (themes[editorTheme]) {
+      extensions.push(themes[editorTheme]);
+    }
+
     const state = EditorState.create({
       doc: value,
       extensions,
@@ -82,7 +105,7 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
       view.destroy();
       viewRef.current = null;
     };
-  }, [theme, fontSize, wordWrap, showLineNumbers]);
+  }, [theme, fontSize, wordWrap, showLineNumbers, editorTheme, onChange, value]);
 
   // Update content when value changes externally
   useEffect(() => {
@@ -98,7 +121,7 @@ export const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({
   }, [value]);
 
   return (
-    <div className={`h-full w-full ${className}`}>
+    <div className={`h-full w-full ${className}`} role="textbox" aria-label="Markdown editor">
       <div ref={editorRef} className="h-full" />
     </div>
   );

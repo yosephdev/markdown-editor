@@ -19,7 +19,7 @@ export const StatusBar: React.FC = () => {
   const stats = getStats();
 
   return (
-    <div className="border-t border-border bg-muted/30 px-4 py-1 flex items-center justify-between text-xs text-muted-foreground">
+    <div className="border-t border-border bg-muted/30 px-4 py-1 flex items-center justify-between text-xs text-muted-foreground" role="status" aria-live="polite">
       <div className="flex items-center gap-4">
         <span>Lines: {stats.lines}</span>
         <span>Words: {stats.words}</span>

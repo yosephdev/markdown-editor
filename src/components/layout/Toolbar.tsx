@@ -24,7 +24,15 @@ import {
 } from 'lucide-react';
 import { useEditorStore } from '@/store/useEditorStore';
 
-export const Toolbar: React.FC = () => {
+interface ToolbarProps {
+  onOpenExport: () => void;
+  onOpenSettings: () => void;
+}
+
+export const Toolbar: React.FC<ToolbarProps> = ({
+  onOpenExport,
+  onOpenSettings,
+}) => {
   const {
     toggleSidebar,
     sidebarOpen,
@@ -73,6 +81,7 @@ export const Toolbar: React.FC = () => {
           size="sm"
           onClick={toggleSidebar}
           className="text-muted-foreground hover:text-foreground"
+          aria-label="Toggle sidebar"
         >
           <Menu className="h-4 w-4" />
         </Button>
@@ -86,7 +95,7 @@ export const Toolbar: React.FC = () => {
         {/* File Operations */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" aria-label="File operations">
               <FileText className="h-4 w-4 mr-1" />
               File
             </Button>
@@ -119,7 +128,7 @@ export const Toolbar: React.FC = () => {
         {/* View Mode */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" aria-label="Change view mode">
               {previewMode === 'split' && <Split className="h-4 w-4 mr-1" />}
               {previewMode === 'editor' && <EyeOff className="h-4 w-4 mr-1" />}
               {previewMode === 'preview' && <Eye className="h-4 w-4 mr-1" />}
@@ -145,17 +154,14 @@ export const Toolbar: React.FC = () => {
         {/* Export */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" disabled={!currentFile}>
+            <Button variant="ghost" size="sm" disabled={!currentFile} aria-label="Export document">
               <Download className="h-4 w-4 mr-1" />
               Export
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={handleExportHTML}>
-              Export as HTML
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleExportPDF}>
-              Export as PDF
+            <DropdownMenuItem onClick={onOpenExport}>
+              Export Document
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -181,6 +187,7 @@ export const Toolbar: React.FC = () => {
           variant="ghost"
           size="sm"
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          aria-label="Toggle theme"
         >
           {theme === 'light' ? (
             <Moon className="h-4 w-4" />
@@ -190,7 +197,7 @@ export const Toolbar: React.FC = () => {
         </Button>
 
         {/* Settings */}
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" onClick={onOpenSettings}>
           <Settings className="h-4 w-4" />
         </Button>
       </div>
