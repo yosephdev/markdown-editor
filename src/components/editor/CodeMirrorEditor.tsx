@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { EditorView, basicSetup, keymap } from 'codemirror';
-import { lineNumbers } from '@codemirror/view';
+import { EditorView, basicSetup } from 'codemirror';
+import { lineNumbers, keymap } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
