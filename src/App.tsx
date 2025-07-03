@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useThemeInitializer } from '@/hooks/useThemeInitializer';
+import { useInitialFileCreator } from '@/hooks/useInitialFileCreator';
 
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
