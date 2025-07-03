@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { useThemeInitializer } from '@/hooks/useThemeInitializer';
-import { useInitialFileCreator } from '@/hooks/useInitialFileCreator';
-import { useThemeInitializer } from '@/hooks/useThemeInitializer';
-import { useInitialFileCreator } from '@/hooks/useInitialFileCreator';
+
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -28,8 +25,6 @@ const MainEditor: React.FC = () => {
   const isMobile = useIsMobile();
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
-
-  useThemeInitializer();
 
   
 
