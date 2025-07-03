@@ -7,7 +7,7 @@ import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { solarizedLight, solarizedDark } from '@uiw/codemirror-theme-solarized';
 import { EditorState, Extension } from '@codemirror/state';
-import { history, historyKeymap } from '@codemirror/history';
+import { history, historyKeymap } from '@codemirror/commands';
 import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
 import { useEditorStore } from '@/store/useEditorStore';
 
